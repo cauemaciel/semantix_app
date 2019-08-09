@@ -1,59 +1,110 @@
-# semantix/test
-#python.app
+# Semantix DevOps
 
-# Simple search app
+## Provisionando o ambiente de desenvolvimento utilizando o Docker Compose e Minikube
 
-The is the data engineering take home test.
+Objetivo: Auxiliar o desenvolvedor na configuração do ambiente de desenvolvimento da aplicação SEmantix de forma rápida e com todas as vantagens promovidas pelo uso de containers.
 
-For the assignment descriptions, please see [ASSIGNMENT.md](ASSIGNMENT.md).
+## Requisitos
 
-The rest of the README is focused on running the app included in this bundle 
+Instale os componentes abaixo:
 
-## Development environment
+- [Git](https://git-scm.com/downloads)
+- [Docker CE](https://docs.docker.com/install/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+- [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+- [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/)
+- [Helm](https://helm.sh/docs/using_helm/)
 
-The application is written in Python 3 using Tornado to handle web
-connectivity.
+## Docker Compose
 
-If starting from a vanila Python environment we suggest the following 
-steps to bootstrap an environment.
 
-    > # in the project root
-    > pip3 install virtualenv
-    > virtualenv -p python3 env
-    > source env/bin/activate
-    > pip install -r requirements.txt
+### Configuração do ambiente
 
-This will give you an environment, where you can run the app with:
+* Clone este repositório em seu ambiente de desenvolvimento:
 
-    > ./app.py
+```shell
+git clone -b master https://bitbucket.org/bexstech/bexs-devops-exam.git bexs-dev
+cd bexs-dev/docker-compose
+```
 
-## Running 
+* Construa as imagens do Docker dos microserviços representados por seus Dockerfiles:
 
-The app runs on port 8888 and the search functions can be reached at /s followed
-by a path element containing the search terms.
-For example, to search for the terms _fun_ and _city_:
+```shell
+docker-compose build
+```
 
-    > curl http://localhost:8888/s/fun%20city
+* Crie a network para a comunicação entre os microserviços:
 
-For convenience:
+```shell
+docker network create --driver=bridge bexsnet
+```
 
-   > make run
+* E agora, inicialize os microserviços:
 
-## Testing code
+```shell
+docker-compose up
+```
 
-The app uses doc tests, for convenient testing, do:
+* Et voilà, acesse a aplicação [clicando aqui](http://localhost:8000)!
 
-    > make test
+### Observações
 
-## Load testing
+Por padrão, a inicialização dos microserviços com o comando ```docker-compose up``` exibirá no terminal o nome e o log das aplicações inicializadas, caso a sessão do terminal aberta para a execução do comando seja finalizada, os microserviços serão encerrados. Para mantê-los inicializados no Docker, utilize ```docker-compose up --detach``` e para realizar o debug (verificação de logs) com está condição, execute o comando ```docker attach <NOME_DO_MICROSERVIÇO>```, como por exemplo: ```docker attach backend```.
 
-To run a simple load test, do:
+### Dicas
 
-    > make loadtest
-    time xargs -n 4 curl -s  < queries.txt > /dev/null
-    
-    real  0m1.023s
-    user  0m0.056s
-    sys 0m0.071s
+Você poderá verificar os containers em execução com o comando ```docker ps``` e as imagens do Docker que foram contruídas com ```docker images```.
 
-When doing parformance comparisons, use the _real_ value.
+## Minikube
+
+### Arquitetura:
+
+![Arquitetura](minikube.png)
+
+### Configuração do ambiente
+
+* Instale o Kubectl (binário de comandos do Kubernetes), conforme o link descrito nos "Requisitos";
+
+* Instale o Minikube, seguindo os passos no link na sessão de "Requisitos";
+
+* Provisione o "cluster" do Minikube com o comando abaixo:
+
+```shell
+minikube start --vm-driver <DRIVER_INSTALADO_POSTERIORMENTE>
+```
+
+* Instale o Helm, conforme o link descrito nos "Requisitos";
+
+* Abra uma nova sessão no terminal, execute o comando abaixo para criar um link entre o repositório de imagens do Docker local e o "cluster" do Minikube, para podermos utilizar as imagens dos microserviços:
+
+```shell
+eval $(minikube docker-env)
+```
+
+* Permanecendo na mesma sessão que foi criada, realize a contrução das imagens novamente seguindo os passos abaixo:
+
+```shell
+cd bexs-dev/docker-compose
+docker-compose build
+```
+
+* Instale a Chart da aplicação Bexs seguindo os passsos abaixo:
+
+```shell
+cd ../charts/bexs
+helm install . --name bexs --namespace bexs
+```
+
+* Acompanhe/valide a inicialização das pods, deverão possuir o "STATUS" como "Running":
+
+```shell
+watch -n0 kubectl get pods --namespace bexs
+```
+
+* Abra uma conexão partindo do localhost na porta 8001 para o service do Frontend dentro do "cluster" do Minikube na porta 8000:
+
+```shell
+kubectl port-forward svc/bexs-frontend-service 8001:8000 --namespace bexs
+```
+
+* E novamente, et voilà. Acesse a aplicação [clicando aqui](http://localhost:8001)!
