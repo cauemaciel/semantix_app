@@ -1,0 +1,22 @@
+FROM alpine:3.1
+
+# Update
+RUN apk add --update python py-pip
+
+#Add requirements.txt. before rest of repo for caching
+#ADD requirements.txt /app/
+
+# Install app dependencies
+RUN pip install Flask
+RUN pip install virtualenv
+RUN pip install pypi.python.org -r requirements.txt
+COPY ./requirements.txt /var/www/requirements.txt
+RUN pip install -r /var/www/requirements.txt
+#RUN sleep 390000
+
+# Bundle app source
+COPY app.py /root/projeto/semantix/app.py
+
+#Expose service 4000
+EXPOSE  4000
+CMD ["python", "/root/projeto/semantix/app.py", "-p 4000"]
