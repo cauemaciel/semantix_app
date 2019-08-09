@@ -2,7 +2,7 @@
 
 ## Provisionando o ambiente de desenvolvimento utilizando o Docker Compose e Minikube
 
-Objetivo: Auxiliar o desenvolvedor na configuração do ambiente de desenvolvimento da aplicação SEmantix de forma rápida e com todas as vantagens promovidas pelo uso de containers.
+Objetivo: Auxiliar o desenvolvedor na configuração do ambiente de desenvolvimento da aplicação Semantix de forma rápida e com todas as vantagens promovidas pelo uso de containers.
 
 ## Requisitos
 
@@ -23,8 +23,7 @@ Instale os componentes abaixo:
 * Clone este repositório em seu ambiente de desenvolvimento:
 
 ```shell
-git clone -b master https://bitbucket.org/bexstech/bexs-devops-exam.git bexs-dev
-cd bexs-dev/docker-compose
+git clone -b master https://github.com/cauemaciel/semantix_app.git semantix
 ```
 
 * Construa as imagens do Docker dos microserviços representados por seus Dockerfiles:
@@ -45,7 +44,7 @@ docker network create --driver=bridge bexsnet
 docker-compose up
 ```
 
-* Et voilà, acesse a aplicação [clicando aqui](http://localhost:8000)!
+* Acesse a aplicação [clicando aqui](http://localhost:4000)!
 
 ### Observações
 
@@ -54,12 +53,6 @@ Por padrão, a inicialização dos microserviços com o comando ```docker-compos
 ### Dicas
 
 Você poderá verificar os containers em execução com o comando ```docker ps``` e as imagens do Docker que foram contruídas com ```docker images```.
-
-## Minikube
-
-### Arquitetura:
-
-![Arquitetura](minikube.png)
 
 ### Configuração do ambiente
 
