@@ -43,6 +43,7 @@ docker network create --driver=bridge semantix
 
 ```shell
 docker-compose up
+ou docker run semantix
 ```
 
 * Acesse a aplicação (http://localhost:4000)!
