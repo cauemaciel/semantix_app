@@ -23,8 +23,9 @@ Instale os componentes abaixo:
 * Clone este repositório em seu ambiente de desenvolvimento:
 
 ```shell
-git clone -b master https://github.com/cauemaciel/semantix_app.git semantix
-```
+git clone -b master https://github.com/cauemaciel/semantix_app.git semantix_app
+cd semantix_app
+``` 
 
 * Construa as imagens do Docker dos microserviços representados por seus Dockerfiles:
 
