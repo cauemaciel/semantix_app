@@ -30,7 +30,7 @@ git clone -b master https://github.com/cauemaciel/semantix_app.git semantix
 
 ```shell
 docker-compose build
-Para teste rapido do Dockerfile use: "docker build -t semantix ."
+Para teste do Dockerfile use: "docker build -t semantix ."
 ```
 
 * Crie a network para a comunicação entre os microserviços:
