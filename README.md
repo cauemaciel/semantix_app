@@ -1,23 +1,23 @@
 # Semantix DevOps
 
-## Provisionando o ambiente de desenvolvimento utilizando o Docker Compose e Minikube
+## Teste semantix. Provisionando um ambiente utilizando o Docker Compose, Minikube, Docker, Github e outras paradas. 
 
-Objetivo: Auxiliar o desenvolvedor na configuração do ambiente de desenvolvimento da aplicação Semantix de forma rápida e com todas as vantagens promovidas pelo uso de containers.
+
+Objetivo: Auxiliar o desenvolvedor na configuração do ambiente de desenvolvimento da aplicação Semantix com uso de containers.
 
 ## Requisitos
 
 Instale os componentes abaixo:
 
-- [Git](https://git-scm.com/downloads)
+- [Git/Runner] (https://git-scm.com/downloads)
 - [Docker CE](https://docs.docker.com/install/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 - [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 - [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/)
 - [Helm](https://helm.sh/docs/using_helm/)
 
-## Docker Compose
 
-
+============================
 ### Configuração do ambiente
 
 * Clone este repositório em seu ambiente de desenvolvimento:
@@ -30,6 +30,7 @@ git clone -b master https://github.com/cauemaciel/semantix_app.git semantix
 
 ```shell
 docker-compose build
+Para teste rapido do Dockerfile use: "docker build -t semantix ."
 ```
 
 * Crie a network para a comunicação entre os microserviços:
@@ -100,4 +101,4 @@ watch -n0 kubectl get pods --namespace semantix
 kubectl port-forward svc/semantix-frontend-service 4001:4000 --namespace semantix
 ```
 
-* Acesse a aplicação (http://localhost:4001)!
+* Acesse a aplicação (http://localhost:4000)!
