@@ -35,7 +35,7 @@ docker-compose build
 * Crie a network para a comunicação entre os microserviços:
 
 ```shell
-docker network create --driver=bridge bexsnet
+docker network create --driver=bridge semantix
 ```
 
 * E agora, inicialize os microserviços:
@@ -44,7 +44,7 @@ docker network create --driver=bridge bexsnet
 docker-compose up
 ```
 
-* Acesse a aplicação [clicando aqui](http://localhost:4000)!
+* Acesse a aplicação (http://localhost:4000)!
 
 ### Observações
 
@@ -77,27 +77,27 @@ eval $(minikube docker-env)
 * Permanecendo na mesma sessão que foi criada, realize a contrução das imagens novamente seguindo os passos abaixo:
 
 ```shell
-cd bexs-dev/docker-compose
+cd semantix-dev/docker-compose
 docker-compose build
 ```
 
-* Instale a Chart da aplicação Bexs seguindo os passsos abaixo:
+* Instale a Chart da aplicação Semantix seguindo os passsos abaixo:
 
 ```shell
-cd ../charts/bexs
-helm install . --name bexs --namespace bexs
+cd ../charts/semantix
+helm install . --name semantix --namespace semantix
 ```
 
 * Acompanhe/valide a inicialização das pods, deverão possuir o "STATUS" como "Running":
 
 ```shell
-watch -n0 kubectl get pods --namespace bexs
+watch -n0 kubectl get pods --namespace semantix
 ```
 
 * Abra uma conexão partindo do localhost na porta 8001 para o service do Frontend dentro do "cluster" do Minikube na porta 8000:
 
 ```shell
-kubectl port-forward svc/bexs-frontend-service 8001:8000 --namespace bexs
+kubectl port-forward svc/semantix-frontend-service 4001:4000 --namespace semantix
 ```
 
-* E novamente, et voilà. Acesse a aplicação [clicando aqui](http://localhost:8001)!
+* Acesse a aplicação (http://localhost:4001)!
